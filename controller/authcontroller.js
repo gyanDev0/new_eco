@@ -45,7 +45,18 @@ try{
   if(!checkpassword){
     return res.json({message:"Invalid username or password"});
   }
-  res.json({message:"Login successful"});
+  
+     //iwt verify(token)
+    //if token is not valid then throw error"invalid token"
+    let tokenx =req.headers.authorization.split(' ');
+    let secretkey = process.env.secretkey;
+    let verification = jwt.verify(tokenx,secretkey);
+    if (!verification) {
+      return res.status(400).json({ "error": "Invalid token!" });
+    }
+
+    let currentlocation=req.header.location;
+    res.status(200).json({ "message": "Login successful!",currentlocation });
 } catch (error) {
   res.json({message:"Error logging in",error:error.message});
 }
