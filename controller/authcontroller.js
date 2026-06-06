@@ -48,15 +48,11 @@ try{
   
      //iwt verify(token)
     //if token is not valid then throw error"invalid token"
-    let tokenx =req.headers.authorization.split(' ')[1];
+    let payload = { username: users.username, role: users.role };
     let secretkey = process.env.secretkey;
-    let verification = jwt.verify(tokenx,secretkey);
-    if (!verification) {
-      return res.status(400).json({ "error": "Invalid token!" });
-    }
+    let token = jwt.sign(payload, secretkey, { expiresIn: '1h' });
 
-    let currentlocation=req.header.location;
-    res.status(200).json({ "message": "Login successful!",currentlocation });
+    res.status(200).json({ "message": "Login successful!", token });
 } catch (error) {
   res.json({message:"Error logging in",error:error.message});
 }
