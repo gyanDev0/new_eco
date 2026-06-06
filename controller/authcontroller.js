@@ -48,7 +48,7 @@ try{
   
      //iwt verify(token)
     //if token is not valid then throw error"invalid token"
-    let tokenx =req.headers.authorization.split(' ');
+    let tokenx =req.headers.authorization.split(' ')[1];
     let secretkey = process.env.secretkey;
     let verification = jwt.verify(tokenx,secretkey);
     if (!verification) {
